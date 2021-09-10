@@ -23,7 +23,7 @@ function returnColor(rowIndex, colIndex) {
 
 function checkBottom(colIndex) {
     let colorReport = returnColor(5, colIndex)
-    for(let row = 5; i < -1; row--) {
+    for(let row = 5; row > -1; row--) {
         colorReport = returnColor(row, colIndex);
         if(colorReport === 'rgb(128, 128, 128)') {
             return row
@@ -32,9 +32,7 @@ function checkBottom(colIndex) {
 }
 
 function colorMatchCheck(one, two, three, four) {
-    return (one === two && one === three && one === four && one !== 'rgb(128, 128, 128)' && one !== undefined) {
-
-    }
+    return (one === two && one === three && one === four && one !== 'rgb(128, 128, 128)' && one !== undefined)
 }
 
 // Check for Horizontal Wins
@@ -86,3 +84,35 @@ function diagonalWinCheck() {
     }
 }
 
+
+
+
+// START WITH PLAYER 1
+let currentPlayer = 1;
+let currentName = player1;
+let currentColor = player1Color;
+
+$('h3').text(player1+" it is your turn, pick a column to drop in!")
+
+$('.board button').on('click', function() {
+    let col = $(this).closest('td').index();
+    let bottomAvail = checkBottom(col);
+    changeColor(bottomAvail, col, currentColor);
+    if(horizontalWinCheck() || verticalWinCheck() || diagonalWinCheck()) {
+        $('h1').text(currentName+" you have won!")
+        $('h3').fadeOut('fast');
+        $('h2').fadeOut('fast');
+    }
+
+    currentPlayer = currentPlayer * -1;
+
+    if(currentPlayer === 1) {
+        currentName = player1;
+        $('h3').text(currentName+" it is your turn.")
+        currentColor = player1Color
+    } else {
+        currentName = player2;
+        $('h3').text(currentName+" it is your turn.")
+        currentColor = player2Color
+    }
+})
